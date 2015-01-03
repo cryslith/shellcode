@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -z "$1" ]
+then
+    echo "Usage: $0 binary"
+    exit 1
+fi
+
+echo -n '\x'
+objdump -D "$1" | cut -s -f2 | grep -E -v '^$' | sed 's/ *$//g' | \
+    paste -s -d'X' | sed 's/X\| /\\x/g'
